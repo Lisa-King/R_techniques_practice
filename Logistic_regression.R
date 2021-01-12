@@ -41,3 +41,10 @@ fitted.results <- ifelse(fitted.results > 0.5,1,0)
 #MisclassificationError -> predicated result is not same with actual result 
 misClasificError <- mean(fitted.results != test$Survived)
 print(paste('Accuracy',1-misClasificError))
+
+# Plot the sensitivity-specificity curve and precision-recall curve for model evaluation
+library(precrec)
+library(ggplot2)
+p <- predict(model, newdata=subset(test,select=c(2,3,4,5,6,7,8)), type="response")
+precrec_obj <- evalmod(scores = p, labels = test$Survived)
+autoplot(precrec_obj)
